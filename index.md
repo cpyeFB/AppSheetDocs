@@ -23,7 +23,7 @@
 - **PDF Generation Issues** 
   - Sometimes, for a myriad of possible reasons, the PDF inspection reports saved to Google drive will fail to be generated, or need to be updated manually. If the PDFs failed to generate, then whatever caused this needs to be addressed first. After that, the reports will need to be recreated. There are three action buttons on the Inspections table (soccer ball icons) that are typically set to not display. They are labeled by the status they will set the status column to, and "Admin Workaround." These actions will trigger the bot that creates the PDFs, but will skip the update meta-data fields so they remain accurate. 
   
-![Admin Workaround Actions](/assets/Admin%20Actions%20Screenshot.png "Admin Workaround Actions")
+![Admin Workaround Actions](/assets/AdminActionsScreenshot.png "Admin Workaround Actions")
 
 ___
 
