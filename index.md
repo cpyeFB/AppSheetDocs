@@ -1,37 +1,31 @@
-## Welcome to GitHub Pages
+# <p align = "center"> EHS AppSheet Troubleshooting Record </p>
 
-You can use the [editor on GitHub](https://github.com/cpyeFB/AppSheetDocs/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+### Recurring Issues
 
-### Markdown
+- **Server-Side Timeouts**
+  - **Issue Rundown**
+    - The issue seems centered around the part of the sync process where the AppSheet server tries to fetch resources from the database (Google Sheets in this case).  
+    - Most built in tools for limiting the size of the working data set (such as security filters) are not applied to the data until the entire Google Sheet is fetched into the AS server. So once the data is in the server, we can begin filtering what gets pulled down into the client. However, this doesn't really help us if the timeout occurs when the server is just trying to get the whole data set in the first place.
+  - **Potential Solutions**
+    - Moving to a SQL database could be an effective fix due to the use of Active Database Filtering. When connected to a SQL DB, AppSheet can convert security filters into a direct SQL query that will return only the results of the filtered query to the AS server. This essentially lets us limit the scope of the data set initally fetched by the AS server, which we are unable to do with Google Sheets at this time.
+    - It seems that this issue shouild be fairly prolific for most enterprise level applications. Having some AS engineers take a close look is probably a good idea no matter what, and could be a step toward resolution.
+  ---
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+- **Expression Miss-Evaluation**
+  - **Issue Rundown**
+    - While quite rare, there have been maybe 3 instances over the  last year and a half where a simple expression that has been functioning perfectly fine will suddenly begin returning the wrong value. In every case I'v eenountered so far, it has been a LOOKUP() or SELECT() expression, and if I remember correctly, always in a google doc template. What seems to be happening under the hood is that the expression stops being able to find a value that meets the Yes/No condition, but rather than return nothing it returns another random value from the list specified by the LOOKUP()/SELECT().
+  - **Potential Solutions**
+    - In one case, I was able to resolve the issue by simply changing the expression to different but equivalent one. I believe I switched out a LOOKUP() with an equivalent SELECT(). The other two times this happened, I determined that the value that should have been returned was actually not meeting the Yes/No condition. Updating the condition to be correct fixed the issue both times. 
 
-```markdown
-Syntax highlighted code block
+---
 
-# Header 1
-## Header 2
-### Header 3
+- **PDF Generation Issues** 
+  - Sometimes, for a myriad of possible reasons, the PDF inspection reports saved to Google drive will fail to be generated, or need to be updated manually. If the PDFs failed to generate, then whatever caused this needs to be addressed first. After that, the reports will need to be recreated. There are three action buttons on the Inspections table (soccer ball icons) that are typically set to not display. They are labeled by the status they will set the status column to, and "Admin Workaround." These actions will trigger the bot that creates the PDFs, but will skip the update meta-data fields so they remain accurate. 
+  
+![Admin Workaround Actions](/assets/Admin%20Actions%20Screenshot.png "Admin Workaround Actions")
 
-- Bulleted
-- List
+___
 
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/cpyeFB/AppSheetDocs/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+- **Action Visibility** 
+  - One of the most common troubleshooting requests is simply that a task is missing. 
